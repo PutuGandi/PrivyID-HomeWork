@@ -1,2 +1,4 @@
 VPC/*.terraform
 VPC/*terraform.tfstate
+VPC/*.terraform.lock.hcl
+VPC/*terraform.tfstate.backup
