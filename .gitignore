@@ -1,0 +1,2 @@
+VPC/*.terraform
+VPC/*terraform.tfstate
