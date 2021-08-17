@@ -5,17 +5,20 @@ resource "aws_vpc" "privyID" {
         Name = "PrivyID-VPC"
     }
 }
+
 #---------------------------
 #---Create Private Subnet---
 #--------------------------
 resource "aws_subnet" "private" {
+    count                   = length(var.private_subnets)
     vpc_id                  = aws_vpc.privyID.id
-    cidr_block              = var.private_subnets
-    availability_zone       = var.aws_availability_zones
+    #cidr_block              = var.private_subnets
+    cidr_block              = var.private_subnets[count.index]
+    availability_zone       = var.aws_availability_zones[count.index]
     map_public_ip_on_launch = false
 
     tags = {
-        Name = "Private Subent PrivyID"
+        Name = var.private_names[count.index]
     }
 }
 
@@ -23,13 +26,15 @@ resource "aws_subnet" "private" {
 #---Create Public Subnet----
 #---------------------------
 resource "aws_subnet" "public" {
+    count                   = length(var.public_subnets)
     vpc_id                  = aws_vpc.privyID.id
-    cidr_block              = var.public_subnets
-    availability_zone       = var.aws_availability_zones
+    #cidr_block              = var.public_subnets
+    cidr_block              = var.public_subnets[count.index]
+    availability_zone       = var.aws_availability_zones[count.index]
     map_public_ip_on_launch = true
 
     tags = {
-        Name = "Public Subnet PrivyID"
+        Name = var.public_names[count.index]
     }
 }
 
@@ -61,7 +66,8 @@ resource "aws_route_table" "routepublic" {
 }   
 
 resource "aws_route_table_association" "routepublicassociation" {
-    subnet_id      = aws_subnet.public.id
+    count          = length(var.public_subnets)
+    subnet_id      = element(aws_subnet.public.*.id, count.index)
     route_table_id = aws_route_table.routepublic.id
 }
 
@@ -74,7 +80,7 @@ resource "aws_eip" "nat_gateway" {
 
 resource "aws_nat_gateway" "natgw" {
     allocation_id   = aws_eip.nat_gateway.id
-    subnet_id       = aws_subnet.public.id
+    subnet_id       = element(aws_subnet.public.*.id, 0)
 
     tags = {
         "Name" = "NAT-GW-PrivyID"
@@ -98,6 +104,6 @@ resource "aws_route_table" "routeprivate" {
 }   
 
 resource "aws_route_table_association" "routeprivateassociation" {
-    subnet_id      = aws_subnet.private.id
+    subnet_id      = element(aws_subnet.private.*.id, 0)
     route_table_id = aws_route_table.routeprivate.id
 }

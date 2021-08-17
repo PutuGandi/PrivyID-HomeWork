@@ -5,19 +5,33 @@ variable "AWS_REGION" {
 
 variable "aws_availability_zones" {
     description = "Availability zones"
-    type        = string
-    default     = "ap-southeast-1a"
+    type        = list(string)
+    default     = [
+        "ap-southeast-1a",
+        "ap-southeast-1b"
+    ]
 }
 
 variable "public_subnets" {
     description = "Public Subnet"
-    type = string
-    default = "10.10.1.0/24"
+    type = list(string)
+    default = ["10.10.1.0/24","10.10.2.0/24"]
 }
 
 variable "private_subnets" {
     description = "Private Subnet"
-    type = string
-    default = "10.10.10.0/24"
+    type = list(string)
+    default = ["10.10.10.0/24","10.10.20.0/24"]
 }
 
+variable "public_names" {
+  description = "Public names"
+  type        = list(string)
+  default     = ["subnet-public-a","subnet-pubic-b"]
+}
+
+variable "private_names" {
+  description = "Private names"
+  type        = list(string)
+  default     = ["subnet-private-a","subnet-private-b"]
+}
