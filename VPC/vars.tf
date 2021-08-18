@@ -35,3 +35,7 @@ variable "private_names" {
   type        = list(string)
   default     = ["subnet-private-a","subnet-private-b"]
 }
+
+variable "BUCKET_NAME" {
+  default = "clusters.gandi.my.id"
+}
