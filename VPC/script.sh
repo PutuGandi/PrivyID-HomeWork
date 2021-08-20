@@ -2,6 +2,19 @@
 sudo apt update
 sudo apt install nginx -y
 
+cat << EOF > /etc/nginx/sites-available/goweb
+server {
+    server_name goweb localhost;
+
+    location / {
+        proxy_pass http://localhost:8080;
+    }
+}
+EOF
+
+sudo ln -s /etc/nginx/sites-available/goweb /etc/nginx/sites-enabled/goweb
+sudo nginx -s reload
+
 sudo apt update
 sudo apt install \
     apt-transport-https \
@@ -19,4 +32,3 @@ sudo apt install docker-ce -y
 
 sudo usermod -aG docker ${USER}
 sudo chmod 666 /var/run/docker.sock
-

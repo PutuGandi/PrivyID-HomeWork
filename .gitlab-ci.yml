@@ -1,0 +1,48 @@
+stages:
+  - build
+  - deploy  
+
+docker-build:
+  image: docker:latest
+  stage: build
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - docker build --tag "$CI_REGISTRY_IMAGE:latest" .
+    - docker push "$CI_REGISTRY_IMAGE" --all-tags
+
+deploy:
+  stage: deploy
+  image: alpine:latest
+  before_script:
+    - 'which ssh-agent || ( apk update && apk add --no-cache openssh )'
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 700 ~/.ssh/id_rsa
+    - eval "$(ssh-agent -s)"
+    - ls -la ~/.ssh
+    - ssh-add ~/.ssh/id_rsa
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+#  - 'command -v ssh-agent >/dev/null || ( apk add --update openssh )' 
+#  - eval $(ssh-agent -s)
+#  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+#  - mkdir -p ~/.ssh
+#  - chmod 700 ~/.ssh
+#  - ssh-keyscan $VM_IPADDRESS >> ~/.ssh/known_hosts
+#  - chmod 644 ~/.ssh/known_hosts
+
+  script:
+#  - ssh $SSH_USER@$VM_IPADDRESS ""export IMAGE=$CI_REGISTRY_IMAGE && docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD && docker container run 8080:8080 -d ${IMAGE}"
+#    - 'which ssh-agent || ( apk update && apk add --no-cache openssh )'
+#    - mkdir -p ~/.ssh
+#    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+#    - chmod 700 ~/.ssh/id_rsa
+#    - eval "$(ssh-agent -s)"
+#    - ls -la ~/.ssh
+#    - ssh-add ~/.ssh/id_rsa
+#    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+#  script:
+    - ssh -o StrictHostKeyChecking=no $USER@$IP_ADDRESS "export IMAGE=$CI_REGISTRY_IMAGE && docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD && docker container run -p 8182:8080 -d ${IMAGE}:latest"
