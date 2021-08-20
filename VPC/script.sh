@@ -8,6 +8,7 @@ sudo apt install \
     ca-certificates \
     curl \
     software-properties-common
+
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo \
     add-apt-repository \
@@ -15,6 +16,7 @@ sudo \
 
 sudo apt update
 sudo apt install docker-ce -y
+
 sudo usermod -aG docker ${USER}
 sudo chmod 666 /var/run/docker.sock
 

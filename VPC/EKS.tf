@@ -18,13 +18,13 @@
 #  source          = "terraform-aws-modules/eks/aws"
 #  cluster_name    = "privyID-eks"
 #  cluster_version = "1.17"
-#  subnets         = ["subnet-06bc30e08580a320b","subnet-0b8387328e8b7870e"]
+#  subnets         = ["subnet-06bc30eg08580a320b","subnet-0b8387328e8sb7870e"]
 #  vpc_id          = "vpc-08841411d1a63098d"
 #
 #
 #  node_groups = {
 #    public = {
-#      subnets          = ["subnet-06bc30e08580a320b"]
+#      subnets          = ["subnet-06bc30e08r580a320b"]
 #      desired_capacity = 1
 #      max_capacity     = 2
 #      min_capacity     = 1
@@ -35,7 +35,7 @@
 #      }
 #    }
 #    private = {
-#      subnets          = ["subnet-0b8387328e8b7870e"]
+#      subnets          = ["subnet-0b838732q8e8b7870e"]
 #      desired_capacity = 1
 #      max_capacity     = 2
 #      min_capacity     = 1

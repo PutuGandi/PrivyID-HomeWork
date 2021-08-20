@@ -1,0 +1,38 @@
+ 
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: eks-privyidcluster
+  region: ap-southeast-1
+  version: "1.18"
+vpc:
+  id: vpc-08841411d1a63098d
+  subnets:
+    public:
+      subnet-public-a:
+        id: subnet-06bc30e08580a320b
+      subnet-pubic-b:
+        id: subnet-09333dc28e114f162
+    private:
+      subnet-private-a:
+        id: subnet-02eb071186492d56c
+      subnet-private-b:
+        id: subnet-0b8387328e8b7870e
+nodeGroups:
+- name: spot-v2
+  labels:
+    role: spot
+  minSize: 2
+  maxSize: 3
+  instancesDistribution:
+    instanceTypes:
+    - t2.medium
+    onDemandBaseCapacity: 0
+    onDemandPercentageAboveBaseCapacity: 80
+  privateNetworking: true
+  ssh:
+    publicKeyName: Jumper-EC2
+  subnets:
+  - subnet-private-a
+  - subnet-private-b

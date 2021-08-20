@@ -9,7 +9,7 @@ resource "aws_security_group" "SGPublic" {
 
     # allow ingress of port 22
     ingress {
-        cidr_blocks = ["180.249.184.197/32"]
+        cidr_blocks = ["180.249.185.94/32"]
         from_port   = 22
         to_port     = 22
         protocol    = "tcp"
@@ -39,7 +39,7 @@ resource "aws_security_group" "SGPublic" {
 
     tags = {
         Name = "SGPublic"
-        Description = "SGPublic"
+        Description = "SGPublics"
     }
 }
 
