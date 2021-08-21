@@ -1,6 +1,8 @@
+terraform.tfstate
 VPC/*.terraform
 VPC/*terraform.tfstate
 VPC/*.terraform.lock.hcl
 VPC/*terraform.tfstate.backup
 VPC/script.sh
+VPC/.terraform.tfstate.lock.info
 EKS/script
