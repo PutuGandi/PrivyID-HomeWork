@@ -1,10 +1,6 @@
-FROM golang:alpine
-
+FROM golang:1.12.0-alpine3.9
+RUN mkdir /app
 WORKDIR /app
-COPY goweb.go /app
-RUN go mod init webgo
-RUN go mod tidy
-RUN go build -o goweb .
-
-CMD ["/app/goweb"]
-
+COPY . /app
+RUN go build -o main .
+CMD ["/app/main"]

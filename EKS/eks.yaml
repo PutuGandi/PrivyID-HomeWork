@@ -7,18 +7,18 @@ metadata:
   region: ap-southeast-1
   version: "1.18"
 vpc:
-  id: vpc-08841411d1a63098d
+  id: vpc-0ba75f63adcd21713
   subnets:
     public:
       subnet-public-a:
-        id: subnet-06bc30e08580a320b
+        id: subnet-05f17e46e6fe4567f
       subnet-pubic-b:
-        id: subnet-09333dc28e114f162
+        id: subnet-0c7464a55d10647bc
     private:
       subnet-private-a:
-        id: subnet-02eb071186492d56c
+        id: subnet-0277ce434e7dce8b2
       subnet-private-b:
-        id: subnet-0b8387328e8b7870e
+        id: subnet-0b575f26bf5f7ace7
 nodeGroups:
 - name: spot-v2
   labels:
